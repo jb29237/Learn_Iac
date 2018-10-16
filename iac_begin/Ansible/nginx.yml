@@ -1,0 +1,40 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Set Repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install nginx
+    yum:
+      name: nginx
+      state: present
+  
+  - name: Create directory
+    file:
+      path: /etc/nginx/mysite/
+      state: directory
+  
+
+  - name: Insert Index Page
+    copy:
+      src: index.html
+      dest: /etc/nginx/mysite/index.html
+
+  - name: Copy Nginx Config
+    copy: 
+      src: mysite.cfg
+      dest: /etc/nginx/mysite/mysite.cfg
+
+  - name: Start NGiNX
+    service:
+      name: nginx
+      state: started
+
+
+
+...
+       
